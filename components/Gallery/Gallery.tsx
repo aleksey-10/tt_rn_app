@@ -2,19 +2,29 @@ import React, { FC, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Text } from 'react-native-elements';
 import { View, ActivityIndicator, FlatList } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../interfaces/RootStackParamList';
 import { GalleryStateInterface } from '../../interfaces/GalleryStateInterface';
 import { PostInterface } from '../../interfaces/PostInterface';
 import { getGalleryFromServer } from '../../redux/actions';
 import { GalleryStyles } from './GalleryStyles';
 import { Post } from '../Post';
 
+type GalleryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Gallery'>;
+
 type GalleryProps = {
   isLoading: boolean;
   posts: PostInterface[];
   getGallery(): void;
+  navigation: GalleryScreenNavigationProp;
 };
 
-const Gallery: FC<GalleryProps> = ({ posts, isLoading, getGallery }) => {
+const Gallery: FC<GalleryProps> = ({
+  posts,
+  isLoading,
+  getGallery,
+  navigation,
+}) => {
   useEffect(() => {
     getGallery();
   }, []);
@@ -40,7 +50,9 @@ const Gallery: FC<GalleryProps> = ({ posts, isLoading, getGallery }) => {
       style={{ paddingTop: 20 }}
       data={posts}
       keyExtractor={({ id }) => id}
-      renderItem={({ item }) => <Post post={item} />}
+      renderItem={({ item }) => (
+        <Post post={item} navigate={navigation.navigate} />
+      )}
     />
   );
 };

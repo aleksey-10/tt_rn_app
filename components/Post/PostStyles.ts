@@ -12,9 +12,12 @@ export const PostStyles = StyleSheet.create({
     paddingLeft: 20,
     marginBottom: 20,
   },
+  imgWrapper: {
+    width: '100%',
+    height: 300,
+  },
   img: {
     alignSelf: 'stretch',
-    maxWidth: 500,
     height: 300,
     borderRadius: 10,
   },
